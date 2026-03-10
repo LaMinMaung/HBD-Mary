@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Mary 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  min-height: 100vh;
+  background: #fdf0f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  overflow: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 20px; height: 20px;
+  background: #f06292;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s, height 0.2s;
+  mix-blend-mode: multiply;
+}
+
+/* Soft background blobs */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+  animation: drift ease-in-out infinite alternate;
+}
+.blob-1 { width:500px;height:500px;background:#f8bbd0;top:-100px;left:-100px;animation-duration:9s; }
+.blob-2 { width:400px;height:400px;background:#fce4ec;bottom:-80px;right:-80px;animation-duration:11s; }
+.blob-3 { width:300px;height:300px;background:#f48fb1;top:40%;left:55%;animation-duration:7s; }
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px,20px) scale(1.08); }
+}
+
+/* Hearts rain */
+.hearts-bg { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
+.h { position:absolute; animation: floatUp linear infinite; font-size:1.1rem; opacity:0; }
+@keyframes floatUp {
+  0%   { transform:translateY(110vh) rotate(0deg); opacity:0; }
+  10%  { opacity:0.6; }
+  90%  { opacity:0.3; }
+  100% { transform:translateY(-10vh) rotate(20deg); opacity:0; }
+}
+
+/* Card */
+.card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid #f8bbd0;
+  border-radius: 32px;
+  padding: 56px 52px 48px;
+  max-width: 520px;
+  width: 90vw;
+  box-shadow:
+    0 8px 60px #f06292220,
+    0 2px 8px #f4a6c022,
+    inset 0 1px 0 #fff9fb;
+  text-align: center;
+  animation: cardReveal 1s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes cardReveal {
+  from { opacity:0; transform:scale(0.88) translateY(30px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+
+/* Top label */
+.from-label {
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #f48fb1;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeIn 0.6s 0.8s ease both;
+}
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Big name */
+.name {
+  font-family: 'Sacramento', cursive;
+  font-size: clamp(3.8rem, 12vw, 5.5rem);
+  color: #e91e8c;
+  line-height: 1;
+  text-shadow: 0 4px 20px #f4879144;
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: fadeIn 0.7s 1s ease both;
+}
+
+.subtitle {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #c2185b;
+  letter-spacing: 1px;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeIn 0.7s 1.2s ease both;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeIn 0.7s 1.3s ease both;
+}
+.divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,#f48fb1,transparent); }
+.divider-icon { font-size:1.1rem; }
+
+/* Code block */
+.code-wrap {
+  background: #fff0f6;
+  border: 1.5px solid #f8bbd0;
+  border-radius: 18px;
+  padding: 24px 26px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 0.8s 1.5s ease both;
+}
+
+/* Traffic lights */
+.dots { display:flex; gap:6px; margin-bottom:16px; }
+.dot  { width:10px;height:10px;border-radius:50%; }
+.dot-r { background:#ff6b8a; }
+.dot-y { background:#ffb3c1; }
+.dot-g { background:#f8bbd0; }
+
+.code {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  line-height: 2;
+  white-space: pre;
+}
+
+.kw   { color:#d81b60; font-weight:500; }
+.fn   { color:#ad1457; }
+.str  { color:#c2185b; }
+.cm   { color:#f48fb1; font-style:italic; }
+.num  { color:#e91e8c; }
+.pun  { color:#f06292; }
+.var  { color:#880e4f; }
+
+/* Run button */
+.run-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #f06292, #e91e8c);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: none;
+  box-shadow: 0 4px 20px #e91e8c55;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeIn 0.7s 1.9s ease both;
+}
+.run-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 30px #e91e8c77;
+}
+.run-btn:active { transform:scale(0.97); }
+
+/* Output */
+.output {
+  margin-top: 18px;
+  padding: 14px 20px;
+  background: #fff0f6;
+  border: 1.5px dashed #f48fb1;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  color: #c2185b;
+  display: none;
+  animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn {
+  from { transform:scale(0.8); opacity:0; }
+  to   { transform:scale(1); opacity:1; }
+}
+.output.show { display:block; }
+.output-text { font-family:'DM Serif Display',serif; font-style:italic; font-size:1.05rem; }
+
+/* Bottom message */
+.bottom {
+  margin-top: 28px;
+  font-family: 'Sacramento', cursive;
+  font-size: 1.6rem;
+  color: #f06292;
+  opacity: 0;
+  animation: fadeIn 0.7s 2.1s ease both;
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- Floating hearts -->
+<div class="hearts-bg" id="hearts"></div>
+
+<!-- Card -->
+<div class="card">
+  <p class="from-label">✦ a little gift from me to you ✦</p>
+  <h1 class="name">Happy Birthday</h1>
+  <p class="subtitle">Mary 🌸</p>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">💕</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code"><span class="cm"># for the most wonderful person 🌷</span>
+
+<span class="kw">def</span> <span class="fn">wish_happy_birthday</span><span class="pun">(</span><span class="var">name</span><span class="pun">):</span>
+    <span class="kw">return</span> <span class="pun">(</span>
+        <span class="str">f"Happy Birthday, </span><span class="pun">{</span><span class="var">name</span><span class="pun">}</span><span class="str">! 🎂"</span>
+        <span class="str">" You make the world "</span>
+        <span class="str">"prettier just by being in it 💗"</span>
+    <span class="pun">)</span>
+
+<span class="fn">print</span><span class="pun">(</span><span class="fn">wish_happy_birthday</span><span class="pun">(</span><span class="str">"Mary"</span><span class="pun">))</span>
+</div>
+  </div>
+
+  <button class="run-btn" onclick="runCode()">
+    ▶ &nbsp;run with love
+  </button>
+
+  <div class="output" id="output">
+    <div class="output-text">
+      "Happy Birthday, Mary! 🎂 You make the world prettier just by being in it 💗"
+    </div>
+    <div style="margin-top:10px; font-size:1.4rem; letter-spacing:4px;">🌸 💕 🎀 🌷 🎂</div>
+  </div>
+
+  <p class="bottom">with all my heart 💌</p>
+</div>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+
+  // Run button
+  function runCode() {
+    const out = document.getElementById('output');
+    out.classList.add('show');
+    spawnBurst();
+  }
+
+  // Floating hearts
+  const emojis = ['💕','🌸','💗','🌷','💖','🎀','✨','💝'];
+  const hc = document.getElementById('hearts');
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'h';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = (7 + Math.random()*10) + 's';
+    h.style.animationDelay   = (Math.random()*14) + 's';
+    h.style.fontSize = (0.9 + Math.random()*1.2) + 'rem';
+    hc.appendChild(h);
+  }
+
+  // Burst on run
+  function spawnBurst() {
+    for (let i=0;i<16;i++) {
+      const s = document.createElement('div');
+      s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      s.style.cssText = `
+        position:fixed;
+        left:50%;top:50%;
+        font-size:${1.2+Math.random()*1.4}rem;
+        pointer-events:none;
+        z-index:9999;
+        animation: burst${i} 1.2s ease-out forwards;
+      `;
+      const angle = (i/16)*360;
+      const dist  = 80 + Math.random()*120;
+      const dx = Math.cos(angle*Math.PI/180)*dist;
+      const dy = Math.sin(angle*Math.PI/180)*dist;
+      const keyframes = `@keyframes burst${i} {
+        0%   { transform:translate(-50%,-50%) scale(0); opacity:1; }
+        80%  { opacity:1; }
+        100% { transform:translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1); opacity:0; }
+      }`;
+      const style = document.createElement('style');
+      style.textContent = keyframes;
+      document.head.appendChild(style);
+      document.body.appendChild(s);
+      setTimeout(() => { s.remove(); style.remove(); }, 1300);
+    }
+  }
+</script>
+</body>
+</html>
